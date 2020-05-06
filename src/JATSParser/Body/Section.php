@@ -88,6 +88,10 @@ class Section extends AbstractElement {
 					$par = new Par($sectionElement);
 					$content[] = $par;
 					break;
+				case "code":
+					$code = new Code($sectionElement);
+					$content[] = $code;
+					break;
 				case "list":
 					$list = new Listing($sectionElement);
 					$content[] = $list;

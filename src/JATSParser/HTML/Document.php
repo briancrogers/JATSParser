@@ -3,6 +3,7 @@
 use JATSParser\Body\DispQuote;
 use JATSParser\Body\Document as JATSDocument;
 use JATSParser\HTML\Par as  Par;
+use JATSParser\HTML\Code as Code;
 use JATSParser\HTML\Listing as Listing;
 
 class Document extends \DOMDocument {
@@ -116,6 +117,13 @@ class Document extends \DOMDocument {
 					$par = new Par();
 					$parentEl->appendChild($par);
 					$par->setContent($articleSection);
+					break;
+				case "JATSParser\Body\Code":
+					$pre = $this->createElement("pre");
+					$parentEl->appendChild($pre);
+					$code = new Code();
+					$pre->appendChild($code);
+					$code->setContent($articleSection);
 					break;
 				case "JATSParser\Body\Listing":
 					$listing = new Listing($articleSection->getStyle());

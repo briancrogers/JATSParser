@@ -152,6 +152,16 @@ class Document {
 				}
 			}
 		}
+		foreach (self::$xpath->evaluate("/article/back") as $back) {
+			foreach (self::$xpath->evaluate("./app-group/app", $back) as $matter) {
+				switch ($matter->nodeName) {
+					case "app":
+						$articleSection = new Section($matter);
+						$articleContent[] = $articleSection;
+						break;
+				}
+			}
+		}
 		$this->articleContent = $articleContent;
 	}
 
