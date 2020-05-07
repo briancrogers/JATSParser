@@ -115,7 +115,7 @@ class Document {
 	{
 		$articleContent = array();
 		foreach (self::$xpath->evaluate("/article/body") as $body) {
-			foreach (self::$xpath->evaluate(".//sec|./p|./list|./table-wrap|./fig|./media|./disp-quote|./verse-group", $body) as $content) {
+			foreach (self::$xpath->evaluate(".//sec|./p|./list|./table-wrap|./fig|./media|./disp-quote|./boxed-text|./verse-group", $body) as $content) {
 				switch ($content->nodeName) {
 					case "sec":
 						$articleSection = new Section($content);
@@ -144,6 +144,10 @@ class Document {
 					case "disp-quote":
 						$dispQuote = new DispQuote($content);
 						$articleContent[] = $dispQuote;
+						break;
+					case "boxed-text":
+						$boxedText = new BoxedText($content);
+						$articleContent[] = $boxedText;
 						break;
 					case "verse-group":
 						$verse = new Verse($content);
