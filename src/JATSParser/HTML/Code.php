@@ -7,7 +7,6 @@ use JATSParser\HTML\Text as HTMLText;
 class Code extends \DOMElement {
 
 	function __construct($nodeName = null) {
-		trigger_error('construct');
 		$nodeName === null ? parent::__construct("code") : parent::__construct($nodeName);
 	}
 
