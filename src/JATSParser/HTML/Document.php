@@ -167,6 +167,15 @@ class Document extends \DOMDocument {
 					$parentEl->appendChild($figure);
 					$figure->setContent($articleSection);
 					break;
+				case "JATSParser\Body\FundingStatement":
+					$fundingElement = $this->createElement("h2", "Funding Statement");
+					$fundingElement->setAttribute("class", "article-section-title");
+					$parentEl->appendChild($fundingElement);
+
+					$fundingStatement = new FundingStatement();
+					$parentEl->appendChild($fundingStatement);
+					$fundingStatement->setContent($articleSection);
+					break;
 				case "JATSParser\Body\Graphic":
 					$graphic = new Graphic();
 					$parentEl->appendChild($graphic);
