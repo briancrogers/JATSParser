@@ -167,6 +167,11 @@ class Document extends \DOMDocument {
 					$parentEl->appendChild($figure);
 					$figure->setContent($articleSection);
 					break;
+				case "JATSParser\Body\Graphic":
+					$graphic = new Graphic();
+					$parentEl->appendChild($graphic);
+					$graphic->setContent($articleSection);
+					break;
 				case "JATSParser\Body\Media":
 					$media = new Media();
 					$parentEl->appendChild($media);
@@ -194,6 +199,27 @@ class Document extends \DOMDocument {
 						$blockQuote->appendChild($quoteCite);
 						foreach ($quoteAttribTexts as $quoteAttribText) {
 							Text::extractText($quoteAttribText, $quoteCite);
+						}
+					}
+					break;
+				case "JATSParser\Body\BoxedText":
+					$div = $this->createElement("div");
+					$div->setAttribute("class", "panel panel-success");
+					if ($articleSection->getLabel()) {
+						$label = $this->createElement("p", $articleSection->getLabel());
+						$label->setAttribute("class", "panel-heading");
+						$div->appendChild($label);	
+					}
+					$parentEl->appendChild($div);
+					$body = $this->createElement("div");
+					$body->setAttribute("class", "panel-body");
+					$div->appendChild($body);
+					$this->extractContent($articleSection->getContent(), $body);
+					if (!empty($quoteAttribTexts = $articleSection->getAttrib())) {
+						$boxedCite = $this->createElement("cite");
+						$div->appendChild($boxedCite);
+						foreach ($quoteAttribTexts as $quoteAttribText) {
+							Text::extractText($quoteAttribText, $boxedCite);
 						}
 					}
 					break;

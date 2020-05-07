@@ -2,6 +2,7 @@
 
 use JATSParser\Body\Table as Table;
 use JATSParser\Body\Figure as Figure;
+use JATSParser\Body\Graphic as Graphic;
 use JATSParser\Body\Listing as Listing;
 use JATSParser\Body\Par as Par;
 
@@ -109,6 +110,10 @@ class Section extends AbstractElement {
 					$figure = new Figure($sectionElement);
 					$content[] = $figure;
 					break;
+				case "graphic":
+					$graphic = new Graphic($sectionElement);
+					$content[] = $graphic;
+					break;
 				case "media":
 					$media = new Media($sectionElement);
 					$content[] = $media;
@@ -116,6 +121,10 @@ class Section extends AbstractElement {
 				case "disp-quote":
 					$dispQuote = new DispQuote($sectionElement);
 					$content[] = $dispQuote;
+					break;
+				case "boxed-text":
+					$boxedText = new BoxedText($sectionElement);
+					$content[] = $boxedText;
 					break;
 				case "#text":
 					if (trim($sectionElement->nodeValue) != "") {
