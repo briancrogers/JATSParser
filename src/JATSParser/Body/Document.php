@@ -157,11 +157,21 @@ class Document {
 			}
 		}
 		foreach (self::$xpath->evaluate("/article/back") as $back) {
-			foreach (self::$xpath->evaluate("./app-group/app", $back) as $matter) {
-				switch ($matter->nodeName) {
+			foreach (self::$xpath->evaluate("./app-group/app", $back) as $backmatter) {
+				switch ($backmatter->nodeName) {
 					case "app":
-						$articleSection = new Section($matter);
+						$articleSection = new Section($backmatter);
 						$articleContent[] = $articleSection;
+						break;
+				}
+			}
+		}
+		foreach (self::$xpath->evaluate("/article/front") as $front) {
+			foreach (self::$xpath->evaluate("./article-meta/funding-group/funding-statement", $front) as $frontmatter) {
+				switch ($frontmatter->nodeName) {
+					case "funding-statement":
+						$frontStatement = new FundingStatement($frontmatter);
+						$articleContent[] = $frontStatement;
 						break;
 				}
 			}
