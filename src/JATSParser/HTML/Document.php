@@ -195,6 +195,30 @@ class Document extends \DOMDocument {
 					}
 					$this->extractContent($articleSection->getContent());
 					break;
+				case "JATSParser\Body\Ack":
+					if ($articleSection->getTitle()) {
+						$sectionElement = $this->createElement("h" . ($articleSection->getType() + 1), $articleSection->getTitle());
+						$sectionElement->setAttribute("class", "article-section-title");
+						$parentEl->appendChild($sectionElement);
+					}
+					$this->extractContent($articleSection->getContent());
+					break;
+				case "JATSParser\Body\Glossary":
+					if ($articleSection->getTitle()) {
+						$sectionElement = $this->createElement("h" . ($articleSection->getType() + 1), $articleSection->getTitle());
+						$sectionElement->setAttribute("class", "article-section-title");
+						$parentEl->appendChild($sectionElement);
+					}
+					$this->extractContent($articleSection->getContent());
+					break;
+				case "JATSParser\Body\Notes":
+					if ($articleSection->getTitle()) {
+						$sectionElement = $this->createElement("h" . ($articleSection->getType() + 1), $articleSection->getTitle());
+						$sectionElement->setAttribute("class", "article-section-title");
+						$parentEl->appendChild($sectionElement);
+					}
+					$this->extractContent($articleSection->getContent());
+					break;
 				case "JATSParser\Body\DispQuote":
 					$blockQuote = $this->createElement("blockquote");
 					if ($articleSection->getTitle()) {
