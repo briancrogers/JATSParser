@@ -157,18 +157,22 @@ class Document {
 			}
 		}
 		foreach (self::$xpath->evaluate("/article/back") as $back) {
-			foreach (self::$xpath->evaluate("./app-group/app|./glossary|./notes", $back) as $backmatter) {
+			foreach (self::$xpath->evaluate("./ack|./app-group/app|./glossary|./notes", $back) as $backmatter) {
 				switch ($backmatter->nodeName) {
 					case "app":
 						$articleSection = new Section($backmatter);
 						$articleContent[] = $articleSection;
 						break;
 					case "glossary":
-						$articleSection = new Section($backmatter);
+						$articleSection = new Glossary($backmatter);
 						$articleContent[] = $articleSection;
 						break;
 					case "notes":
-						$articleSection = new Section($backmatter);
+						$articleSection = new Notes($backmatter);
+						$articleContent[] = $articleSection;
+						break;
+					case "ack":
+						$articleSection = new Ack($backmatter);
 						$articleContent[] = $articleSection;
 						break;
 				}
