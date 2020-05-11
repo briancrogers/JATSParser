@@ -161,6 +161,7 @@ class Document extends \DOMDocument {
 					$table = new Table();
 					$parentEl->appendChild($table);
 					$table->setContent($articleSection);
+					$table->setAttribute("class","table");
 					break;
 				case "JATSParser\Body\Figure":
 					$figure = new Figure();
