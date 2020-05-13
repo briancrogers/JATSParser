@@ -115,7 +115,7 @@ class Document {
 	{
 		$articleContent = array();
 		foreach (self::$xpath->evaluate("/article/body") as $body) {
-			foreach (self::$xpath->evaluate(".//sec|./p|./list|./table-wrap|./fig|./media|./disp-quote|./boxed-text|./verse-group", $body) as $content) {
+			foreach (self::$xpath->evaluate(".//sec|./p|./list|./table-wrap|./fig|./media|./disp-formula|./disp-quote|./boxed-text|./verse-group", $body) as $content) {
 				switch ($content->nodeName) {
 					case "sec":
 						$articleSection = new Section($content);
@@ -145,6 +145,10 @@ class Document {
 					case "media":
 						$media = new Media($content);
 						$articleContent[] = $media;
+						break;
+					case "disp-formula":
+						$dispFormula = new DispFormula($content);
+						$articleContent[] = $dispFormula;
 						break;
 					case "disp-quote":
 						$dispQuote = new DispQuote($content);
