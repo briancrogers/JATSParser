@@ -18,7 +18,7 @@ class Text implements JATSElement {
 
 	private $content;
 
-	private static $nodeCheck = array("bold", "italic", "sup", "sub", "xref", "underline", "monospace", "ext-link");
+	private static $nodeCheck = array("bold", "italic", "sup", "sub", "xref", "underline", "monospace", "ext-link", "tex-math");
 
 	public function __construct(\DOMText $paragraphContent) {
 		$this->content = $paragraphContent->textContent;

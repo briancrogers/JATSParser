@@ -38,6 +38,9 @@ class Text {
 					case "underline":
 						$typeArray[] = "u";
 						break;
+					case "tex-math":
+						$typeArray[]["span"] = array("class" => "LaTeXFormula");
+						break;
 					case is_array($nodeType):
 						foreach ($nodeType as $elementName => $elementAttrs) {
 							if ($elementName === "xref") {
@@ -79,7 +82,11 @@ class Text {
 				} else {
 					foreach ($type as $insideKey => $insideType) {
 						$nodeElement = $domDocument->createElement($insideKey);
-						$nodeElement->nodeValue = trim(htmlspecialchars($jatsText->getContent()));
+					        if (in_array("tex-math",$nodeTypes)) {
+							$nodeElement->nodeValue = "\(" . trim(htmlspecialchars($jatsText->getContent())) . "\)";
+						} else {
+							$nodeElement->nodeValue = trim(htmlspecialchars($jatsText->getContent()));
+						}
 						if (is_array($insideType)) {
 							foreach ($insideType as $nodeAttrKey => $nodeAttrValue) {
 								$nodeElement->setAttribute($nodeAttrKey, $nodeAttrValue);
