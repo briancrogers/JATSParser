@@ -125,6 +125,11 @@ class Document extends \DOMDocument {
 					$pre->appendChild($code);
 					$code->setContent($articleSection);
 					break;
+				case "JATSParser\Body\DispFormula":
+					$dispFormula = new DispFormula();
+					$parentEl->appendChild($dispFormula);
+					$dispFormula->setContent($articleSection);
+					break;
 				case "JATSParser\Body\Listing":
 					$listing = new Listing($articleSection->getStyle());
 					$parentEl->appendChild($listing);

@@ -114,6 +114,10 @@ class Section extends AbstractElement {
 					$media = new Media($sectionElement);
 					$content[] = $media;
 					break;
+				case "disp-formula":
+					$dispFormula = new DispFormula($sectionElement);
+					$content[] = $dispFormula;
+					break;
 				case "disp-quote":
 					$dispQuote = new DispQuote($sectionElement);
 					$content[] = $dispQuote;
