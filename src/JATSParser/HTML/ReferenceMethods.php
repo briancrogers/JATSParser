@@ -66,8 +66,9 @@ class ReferenceMethods {
 					if ($key == 'doi') {
 						$number += 1;
 						$doiLink = $domElement->ownerDocument->createElement('a');
+						$doiLink->setAttribute("class", "doi");
 						$doiLink->setAttribute("href", $pubId);
-						$doiLink->nodeValue = "DOI";
+						$doiLink->nodeValue = $pubId;
 						$domElement->appendChild($doiLink);
 					} elseif ($key == "pmid") {
 						if ($number > 0) {

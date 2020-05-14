@@ -30,6 +30,9 @@ abstract class AbstractReference implements Reference
 	/* @var $pubIdType array publication Identifier for a cited publication */
 	protected $pubIdType;
 
+	/* @var $untaggedText string */
+	protected $untaggedText;
+
 	abstract public function getId();
 
 	abstract public function getTitle();
@@ -44,6 +47,8 @@ abstract class AbstractReference implements Reference
 
 	abstract public function getPubIdType();
 
+	abstract public function getUntaggedText();
+
 	protected function __construct(\DOMElement $reference)
 	{
 		$this->xpath = Document::getXpath();
@@ -53,6 +58,7 @@ abstract class AbstractReference implements Reference
 		$this->year = $this->extractFromElement($reference, './/year[1]');
 		$this->url = $this->extractFromElement($reference, './/ext-link[@ext-link-type="uri"]');
 		$this->pubIdType = $this->extractPubIdType($reference);
+		$this->untaggedText = $this->extractFromElement($reference, './mixed-citation[1]');
 	}
 
 	protected function extractFromElement(\DOMElement $reference, string $xpathExpression)

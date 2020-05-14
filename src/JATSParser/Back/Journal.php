@@ -132,4 +132,12 @@ class Journal extends AbstractReference
 	{
 		return $this->journal;
 	}
+
+	/**
+         * @return string
+         */
+        public function getUntaggedText(): string
+        {
+                return $this->untaggedText;
+        }
 }

@@ -25,6 +25,11 @@ class Reference extends \DOMElement {
 
 				/* @var $jatsReference Journal */
 
+				if ($jatsReference->getUntaggedText()) {
+					$journalUntaggedText = $this->ownerDocument->createElement("p", htmlspecialchars(trim($jatsReference->getUntaggedText())));
+					$this->appendChild($journalUntaggedText);
+				}
+
 				// extracting reference authors
 
 				ReferenceMethods::extractAuthors($jatsReference, $this);
