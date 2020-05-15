@@ -41,6 +41,9 @@ class Text {
 					case "tex-math":
 						$typeArray[]["span"] = array("class" => "LaTeXFormula");
 						break;
+					case "uri":
+						$typeArray[]["a"] = array("class" => "JATS-URI", "href" => $jatsText->getContent());
+						break;
 					case is_array($nodeType):
 						foreach ($nodeType as $elementName => $elementAttrs) {
 							if ($elementName === "xref") {
