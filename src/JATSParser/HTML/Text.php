@@ -44,6 +44,10 @@ class Text {
 					case "uri":
 						$typeArray[]["a"] = array("class" => "JATS-URI", "href" => $jatsText->getContent());
 						break;
+					case "fn":
+						Document::incrementFootnoteIndex();
+						$typeArray[]["a"] = array("class" => "footnote-link", "href" => "#fn-" . Document::getFootnoteIndex());
+						break;
 					case is_array($nodeType):
 						foreach ($nodeType as $elementName => $elementAttrs) {
 							if ($elementName === "xref") {
