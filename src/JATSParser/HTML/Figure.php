@@ -58,10 +58,19 @@ class Figure extends \DOMElement {
         */
 		if (count($jatsFigure->getContent()) > 0) {
 			foreach ($jatsFigure->getContent() as $figureContent) {
-				$par = new Par("span");
-				$titleNode->appendChild($par);
-				$par->setAttribute("class", "notes");
-				$par->setContent($figureContent);
+				switch(get_class($figureContent)) {
+					case "JATSParser\Body\Par":
+						$par = new Par("span");
+						$titleNode->appendChild($par);
+						$par->setAttribute("class", "notes");
+						$par->setContent($figureContent);
+						break;
+					case "JATSParser\Body\Listing":
+                                        	$listing = new Listing($figureContent->getStyle());
+                                        	$titleNode->appendChild($listing);
+                                        	$listing->setContent($figureContent);
+                                        	break;
+				}
 			}
 		}
 	}

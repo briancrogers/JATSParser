@@ -75,6 +75,22 @@ abstract class AbstractElement implements JATSElement {
 			}
 		}
 
+		if ($extractType === self::JATS_EXTRACT_CAPTION) {
+			$bareParagraphs = $this->xpath->query("./node()", $element);
+			foreach ($bareParagraphs as $bareParagraph) {
+				switch($bareParagraph->nodeName) {
+					case "p":
+						$par = new Par($bareParagraph);
+						$titleOrCaption[] = $par;
+						break;
+					case "list":
+						$list = new Listing($bareParagraph);
+						$titleOrCaption[] = $list;
+						break;
+				}
+			}
+		}
+
 		return $titleOrCaption;
 	}
 }
