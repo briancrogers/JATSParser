@@ -17,10 +17,22 @@ class Par implements JATSElement {
 
 		// Parse content
 		$content = array();
-		$parTextNodes = $xpath->query(".//text()", $paragraph);
+		$parTextNodes = $xpath->query(".//fn|.//text()[not(ancestor::fn)]", $paragraph);
 		foreach ($parTextNodes as $parTextNode) {
-			$jatsText = new Text($parTextNode);
-			$content[] = $jatsText;
+                        if ($parTextNode->nodeName === "fn") {
+                                $jatsFootnote = new Footnote($parTextNode);
+                                $footnote = $paragraph->ownerDocument->createElement("sup");
+                                $fn_link = $paragraph->ownerDocument->createElement("fn");
+                                Document::incrementFootnoteIndex();
+                                $fn_index = $jatsFootnote->getLabel() ? $jatsFootnote->getLabel() : Document::getFootnoteIndex();
+                                $fn_link->appendChild($paragraph->ownerDocument->createTextNode($fn_index));
+                                $footnote->appendChild($fn_link);
+                                $content[] = new Text($xpath->query("./text()[1]", $fn_link)[0]);
+                                $content[] = $jatsFootnote;
+                        } else {
+                                $jatsText = new Text($parTextNode);
+                                $content[] = $jatsText;
+                        }
 		}
 		$this->content = $content;
 	}

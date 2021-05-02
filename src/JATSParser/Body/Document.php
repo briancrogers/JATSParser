@@ -23,11 +23,13 @@ class Document {
 	/* var $references array of article's References */
 	private $references = array();
 
+	private static $footnoteIndex;
 
 	function __construct(?string $documentPath) {
 		$document = new \DOMDocument;
 		$this->document = $document->load($documentPath);
 		self::$xpath = new \DOMXPath($document);
+		self::$footnoteIndex = 0;
 
 		$this->extractContent();
 		$this->extractReferences();
@@ -48,6 +50,14 @@ class Document {
 	public function getReferences() : array {
 		return $this->references;
 	}
+
+        public static function incrementFootnoteIndex() {
+                self::$footnoteIndex += 1;
+        }
+
+        public static function getFootnoteIndex() {
+                return self::$footnoteIndex;
+        }
 
 	/* @brief Constructor for references
 	 * JATS XML can give us a little, if not at all, information about reference type;

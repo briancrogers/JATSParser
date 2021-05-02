@@ -14,6 +14,11 @@ define('JATSPARSER_REFERENCE_ELEMENT_ID', 'referenceList'); // Document::getRawR
 
 class Document extends \DOMDocument {
 
+        private static $footnoteIndex;
+
+        /* var $footnotes array */
+        private $footnotes = array();
+
 	/** @var $citationStyle string  */
 	var $citationStyle;
 
@@ -30,7 +35,20 @@ class Document extends \DOMDocument {
 
 		$articleSections = $this->jatsDocument->getArticleSections();
 		$this->extractContent($articleSections);
+                $this->gatherFootnotes($articleSections);
+                if (!empty($this->footnotes)) {
+                        $this->extractFootnotes();
+                }
+                self::$footnoteIndex = 0;
 	}
+
+        public static function incrementFootnoteIndex() {
+                self::$footnoteIndex += 1;
+        }
+
+        public static function getFootnoteIndex() {
+                return self::$footnoteIndex;
+        }	
 
 	/**
 	 * @param string $citationStyle see: https://github.com/citation-style-language/styles
@@ -274,6 +292,53 @@ class Document extends \DOMDocument {
 			}
 		}
 	}
+
+        /**
+          * @param $articleSections array;
+          */
+        private function gatherFootnotes(array $articleSections): void {
+
+                foreach ($articleSections as $articleSection) {
+                        if (method_exists($articleSection, "getContent")) {
+                                if (is_array($articleSection->getContent())) {
+                                        $this->gatherFootnotes($articleSection->getContent());
+                                }
+                        }
+ 
+                        if (!is_array($articleSection)) {
+                                switch(get_class($articleSection)) {
+                                        case "JATSParser\Body\Footnote":
+                                                $this->footnotes[] = $articleSection;
+                                                break;
+                                }
+                        }
+                }
+        }
+
+        /**
+         * @param $footnotes array;
+         */
+        private function extractFootnotes(): void {
+
+                $footnotesHeading = $this->createElement("h2");
+                $footnotesHeading->setAttribute("class", "article-section-title");
+                $footnotesHeading->setAttribute("id", "footnotes-title");
+                $footnotesHeading->nodeValue = "Footnotes";
+                $this->appendChild($footnotesHeading);
+
+                $footnotesList = $this->createElement("ol");
+                $footnotesList->setAttribute("class", "footnotes");
+                $this->appendChild($footnotesList);
+
+                $index = 1;
+
+                foreach ($this->footnotes as $footnote) {
+                        $htmlFootnote = new Footnote($index);
+                        $footnotesList->appendChild($htmlFootnote);
+                        $htmlFootnote->setContent($footnote);
+                        $index += 1;
+                }
+        }
 
 	protected function extractReferences (array $references): void {
 

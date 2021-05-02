@@ -13,7 +13,13 @@ class Par extends \DOMElement {
 	public function setContent(JATSPar $jatsPar) {
 
 		foreach ($jatsPar->getContent() as $jatsText) {
-			HTMLText::extractText($jatsText, $this);
+                        switch (get_class($jatsText)) {
+                                case "JATSParser\Body\Footnote":
+                                        break;
+                                default:
+                                        HTMLText::extractText($jatsText, $this);
+                                        break;
+                        }
 		}
 	}
 }
