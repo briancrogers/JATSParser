@@ -90,6 +90,11 @@ class Reference {
 			case "JATSParser\Back\Journal":
 
 				/* @var $jatsReference Journal */
+
+                                if ($jatsReference->getUntaggedText()) {
+                                        $journalUntaggedText = $this->ownerDocument->createElement("p", htmlspecialchars(trim($jatsReference->getUntaggedText())));
+                                        $this->appendChild($journalUntaggedText);
+                                }
 				$this->content->type = 'article-journal';
 				break;
 

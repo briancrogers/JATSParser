@@ -107,5 +107,12 @@ class Conference extends AbstractReference {
 	{
 		return $this->pubIdType;
 	}
-}
 
+	/**
+	 * @return string
+	 */
+	public function getUntaggedText(): string
+	{
+		return $this->untaggedText;
+	}
+}
