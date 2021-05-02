@@ -22,7 +22,7 @@ class Figure extends \DOMElement {
 
 		$srcNode = $this->ownerDocument->createElement("img");
 		$divNode->appendChild($srcNode);
-		$srcNode->setAttribute("src", rawurlencode($jatsFigure->getLink()));
+		$srcNode->setAttribute("src", $jatsFigure->getLink());
 
 		$titleNode = $this->ownerDocument->createElement("p");
 		$titleNode->setAttribute("class", "caption");
