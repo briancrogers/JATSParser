@@ -366,7 +366,11 @@ class Document extends \DOMDocument {
 		$style = StyleSheet::loadStyleSheet($this->getCitationStyle());
 
 		$wrapIntoListItem = function($cslItem, $renderedText) {
-			return '<li id="' . $cslItem->id .'">' . $renderedText . '</li>';
+			$ijpdsref = '';
+			if (!empty($cslItem->{'DOI'})) { $ijpdsref = '<a href="' . $cslItem->{'DOI'} . '" class="doi">' . $cslItem->{'DOI'} . '</a>'; }
+			if (!empty($cslItem->{'untagged-text'})) { $ijpdsref = '<p>' . $cslItem->{'untagged-text'} . '</p>' . $ijpdsref; }
+			#return '<li id="' . $cslItem->id .'">' . $ijpdsref . $renderedText . '</li>';
+			return '<li id="' . $cslItem->id .'">' . $ijpdsref . '</li>';
 		};
 
 		$additionalMarkup = [

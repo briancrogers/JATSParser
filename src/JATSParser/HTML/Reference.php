@@ -91,9 +91,8 @@ class Reference {
 
 				/* @var $jatsReference Journal */
 
-                                if ($jatsReference->getUntaggedText()) {
-                                        $journalUntaggedText = $this->ownerDocument->createElement("p", htmlspecialchars(trim($jatsReference->getUntaggedText())));
-                                        $this->appendChild($journalUntaggedText);
+                                if (!empty($this->jatsReference->getUntaggedText())) {
+					$this->setSimpleProperty('untagged-text', 'getUntaggedText');
                                 }
 				$this->content->type = 'article-journal';
 				break;
