@@ -366,11 +366,21 @@ class Document extends \DOMDocument {
 		$style = StyleSheet::loadStyleSheet($this->getCitationStyle());
 
 		$wrapIntoListItem = function($cslItem, $renderedText) {
-			$ijpdsref = '';
+			$ijpdsref = "";
+			$untagged = "";
+
 			if (!empty($cslItem->{'DOI'})) { $ijpdsref = '<a href="' . $cslItem->{'DOI'} . '" class="doi">' . $cslItem->{'DOI'} . '</a>'; }
-			if (!empty($cslItem->{'untagged-text'})) { $ijpdsref = '<p>' . $cslItem->{'untagged-text'} . '</p>' . $ijpdsref; }
-			#return '<li id="' . $cslItem->id .'">' . $ijpdsref . $renderedText . '</li>';
-			return '<li id="' . $cslItem->id .'">' . $ijpdsref . '</li>';
+			if (!empty($cslItem->{'untagged-text'})) { $untagged = '<p>' . $cslItem->{'untagged-text'} . '</p>'; }
+
+			$matches = array();
+			preg_match('/csl-right-inline">(.+)<\/div/', $renderedText, $matches);
+
+			if (count($matches) > 1) {
+				if (empty($untagged)) {
+					return '<li id="' . $cslItem->id .'">' . $untagged . '<div>' . $matches[1] . '</div>' . $ijpdsref . '</li>';
+				}
+			}
+			return '<li id="' . $cslItem->id .'">' . $untagged . $ijpdsref . '</li>';
 		};
 
 		$additionalMarkup = [

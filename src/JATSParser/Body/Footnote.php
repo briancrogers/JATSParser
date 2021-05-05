@@ -27,7 +27,7 @@ class Footnote implements JATSElement {
 		}
 		$this->content = $content;
 
-		$this->label = $xpath->evaluate(".//label")->nodeValue;
+		$this->label = $xpath->evaluate(".//label", $footnote)->nodeValue;
 	}
 
 	public function getContent(): array {
