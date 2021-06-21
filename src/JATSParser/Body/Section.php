@@ -27,7 +27,7 @@ class Section extends AbstractElement {
 	function __construct(\DOMElement $section) {
 		parent::__construct($section);
 
-		$this->title = $this->extractFromElement("title", $section);
+		$this->title = htmlspecialchars($this->extractFromElement("title", $section), ENT_XML1 | ENT_COMPAT, 'UTF-8');
 		$this->id = $this->extractFromElement("./@id", $section);
 
 		$this->extractType($section);
